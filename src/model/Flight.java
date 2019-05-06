@@ -9,6 +9,8 @@ public class Flight implements Comparable<Flight> {
 	private String idAirline;
 	private String destinationCity;
 	private String boardingGate;
+	private Flight next;
+	private Flight prev;
 	
 	public Flight(DateFlight date, Time schedule, String nameAirline,String idAirline, String destinationCity) {
 		Random random = new Random();
@@ -61,6 +63,19 @@ public class Flight implements Comparable<Flight> {
 		this.boardingGate = boardingGate;
 	}
 
+	
+	public Flight getNext() {
+		return next;
+	}
+	public void setNext(Flight next) {
+		this.next = next;
+	}
+	public Flight getPrev() {
+		return prev;
+	}
+	public void setPrev(Flight prev) {
+		this.prev = prev;
+	}
 	@Override
 	public int compareTo(Flight otherFlight) {
 		

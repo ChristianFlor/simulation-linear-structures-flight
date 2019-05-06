@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
@@ -70,7 +69,7 @@ public class FlightController {
     @FXML
     public void airlineUp(ActionEvent event) {
     	long start = System.currentTimeMillis();
-    	s.sortByNameAirline();
+    	s.bubbleSort();
     	long endTime = (System.currentTimeMillis() - start)/1000;
        	time.setText("Time: "+endTime);
     	table =createTable();
@@ -80,7 +79,7 @@ public class FlightController {
     @FXML
     public void cityUp(ActionEvent event) {
     	long start = System.currentTimeMillis();
-    	s.sortByDestinationCity();
+    	s.sortByDestination();
     	long endTime = (System.currentTimeMillis() - start)/1000;
        	time.setText("Time: "+endTime);
     	table =createTable();
@@ -91,7 +90,7 @@ public class FlightController {
     @FXML
     public void dateUp(ActionEvent event) {
     	long start = System.currentTimeMillis();
-    	s.sortByDateFlight();
+    	s.sortByDate2();
     	long endTime = (System.currentTimeMillis() - start)/1000;
        	time.setText("Time: "+endTime);
     	table =createTable();
@@ -102,7 +101,7 @@ public class FlightController {
     @FXML
     public void flightUp(ActionEvent event) {
     	long start = System.currentTimeMillis();
-    	s.sortByIdAirline();
+    	s.sortByCode();
     	long endTime = (System.currentTimeMillis() - start)/1000;
        	time.setText("Time: "+endTime);
     	table =createTable();
@@ -112,7 +111,7 @@ public class FlightController {
     @FXML
     public void gateUp(ActionEvent event) {
     	long start = System.currentTimeMillis();
-    	s.sortByBoardingGate();
+    	s.sortByGate();
     	long endTime = (System.currentTimeMillis() - start)/1000;
        	time.setText("Time: "+endTime);
     	table =createTable();
@@ -123,7 +122,7 @@ public class FlightController {
     @FXML
     public void timeUp(ActionEvent event) {
     	long start = System.currentTimeMillis();
-    	s.sortByTime();
+    	s.sortByTime2();
     	long endTime = (System.currentTimeMillis() - start)/1000;
        	time.setText("Time: "+endTime);
     	table =createTable();
@@ -166,12 +165,11 @@ public class FlightController {
     	
     	return table;
     }
-    private ObservableList<Flight> createData(){
+    private ObservableList<Flight> createData(){//
+    	
     	data = FXCollections.observableArrayList();
     	
-    	for (int i = 0; i < s.getFlights().length; i++) {
-			data.add(s.getFlights()[i]);
-		}
+    	data.addAll(s.getFlightsToArraylis());
     	return data;
     }
    
