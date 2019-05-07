@@ -3,6 +3,9 @@ package model;
 import java.util.Random;
 
 public class Flight implements Comparable<Flight> {
+	// -----------------------------------------------------------------
+    // Attributes
+    // -----------------------------------------------------------------
 	private DateFlight date;
 	private Time schedule;
 	private String nameAirline;
@@ -11,7 +14,9 @@ public class Flight implements Comparable<Flight> {
 	private String boardingGate;
 	private Flight next;
 	private Flight prev;
-	
+	// -----------------------------------------------------------------
+    // Builder
+    // -----------------------------------------------------------------
 	public Flight(DateFlight date, Time schedule, String nameAirline,String idAirline, String destinationCity) {
 		Random random = new Random();
 		this.date = date;
@@ -21,11 +26,19 @@ public class Flight implements Comparable<Flight> {
 		this.destinationCity = destinationCity;
 		this.boardingGate =  random.nextInt(20)+1+"";
 	}
+	// -----------------------------------------------------------------
+    // Methods 
+    // -----------------------------------------------------------------
+	
 	public String toString() {
 		String msg= " \n";
-		msg+= date.toString()+ "\t"+schedule.toString()+"\t"+getNameAirline()+"\t"+getIdAirline()+"\t"+getDestinationCity()+"\t"+getBoardingGate();
+		msg+= "Date: "+date.toString()+ "\n"+"Time: "+schedule.toString()+"\n"+"Name: "+getNameAirline()+"\n"+"Id: "+getIdAirline()+"\n"+"Destination: "+getDestinationCity()+"\n"+"Gate: "+getBoardingGate();
 		return msg;
 	}
+	// -----------------------------------------------------------------
+    // Methods Atributes
+    // -----------------------------------------------------------------
+	
 	public DateFlight getDate() {
 		return date;
 	}
@@ -62,8 +75,6 @@ public class Flight implements Comparable<Flight> {
 	public void setBoardingGate(String boardingGate) {
 		this.boardingGate = boardingGate;
 	}
-
-	
 	public Flight getNext() {
 		return next;
 	}
@@ -76,6 +87,10 @@ public class Flight implements Comparable<Flight> {
 	public void setPrev(Flight prev) {
 		this.prev = prev;
 	}
+	// -----------------------------------------------------------------
+    // Method for sort
+    // -----------------------------------------------------------------
+	
 	@Override
 	public int compareTo(Flight otherFlight) {
 		

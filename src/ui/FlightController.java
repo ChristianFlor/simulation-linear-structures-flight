@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
@@ -23,26 +24,29 @@ import model.Simulation;
 import model.Time;
 
 public class FlightController {
-	@FXML
-    private GridPane gp;
 	
 	private Simulation s;
+	private TableView<Flight> table;
+	private ObservableList<Flight> data;
+	private final static int rowsPerPage = 14;
+	
+	@FXML
+    private GridPane gp;
 	@FXML
     private Pagination pagination;
 	@FXML
     private BorderPane borderPane;
-
+	@FXML
+    private ComboBox<String> optionsSearch;
     @FXML
     private TextField nFlight;
     @FXML
     private Label time;
-
+    @FXML
+    private TextField search;
     @FXML
     private Label clock;
-
-    private TableView<Flight> table;
-    private ObservableList<Flight> data;
-    private final static int rowsPerPage = 14;
+    
     @FXML
     public void generateSimulation(ActionEvent event) {
     	try {
@@ -64,7 +68,97 @@ public class FlightController {
         	info.show();
     	} 
     }
- 
+    @FXML
+    public void searching(ActionEvent event) {
+    	String o= (String) optionsSearch.getValue();
+    	try {
+    		
+	    	if(o.equals("Date")) {
+	    		search.setPromptText("AAAA-MM-DD");
+	        	String value = search.getText();
+	        	long start = System.currentTimeMillis();
+	        	Alert info = new Alert(AlertType.INFORMATION);
+	           	info.setTitle("Simulation");
+	           	info.setHeaderText(null);
+	           	info.initStyle(StageStyle.UTILITY);
+	           	
+	           	info.setContentText(s.searchFlightByDate(value));
+	           	info.show();
+	           	long endTime = (System.currentTimeMillis() - start)/1000;
+	           	time.setText("Time: "+endTime);
+	        	
+	    	}else if(o.equals("Schedule")) {
+	    		long start = System.currentTimeMillis();
+	    		search.setPromptText("hh:ss AM/PM");
+	    		String value = search.getText();
+	    		Alert info = new Alert(AlertType.INFORMATION);
+	           	info.setTitle("Simulation");
+	           	info.setHeaderText(null);
+	           	info.initStyle(StageStyle.UTILITY);
+	           	info.setContentText(s.searchFlightByTime(value));
+	           	info.show();
+	           	long endTime = (System.currentTimeMillis() - start)/1000;
+	           	time.setText("Time: "+endTime);
+	    	}else if(o.equals("Airline")) {
+	    		long start = System.currentTimeMillis();
+	    		search.setPromptText("Name Airline");
+	    		String value = search.getText();
+	    		
+	    		Alert info = new Alert(AlertType.INFORMATION);
+	           	info.setTitle("Simulation");
+	           	info.setHeaderText(null);
+	           	info.initStyle(StageStyle.UTILITY);
+	           	info.setContentText(s.searchFlightByAirline(value));
+	           	info.show();
+	           	long endTime = (System.currentTimeMillis() - start)/1000;
+	           	time.setText("Time: "+endTime);
+	    	}else if(o.equals("Flight")) {
+	    		long start = System.currentTimeMillis();
+	    		search.setPromptText("Id Flight");
+	    		String value = search.getText();
+	    		Alert info = new Alert(AlertType.INFORMATION);
+	           	info.setTitle("Simulation");
+	           	info.setHeaderText(null);
+	           	info.initStyle(StageStyle.UTILITY);
+	           	info.setContentText(s.searchFlightByCode(value));
+	           	info.show();
+	           	long endTime = (System.currentTimeMillis() - start)/1000;
+	           	time.setText("Time: "+endTime);
+	    	}else if(o.equals("City")) {
+	    		long start = System.currentTimeMillis();
+	    		search.setPromptText("City Destination ");
+	    		String value = search.getText();
+	    		Alert info = new Alert(AlertType.INFORMATION);
+	           	info.setTitle("Simulation");
+	           	info.setHeaderText(null);
+	           	info.initStyle(StageStyle.UTILITY);
+	           	info.setContentText(s.searchFlightByDestination(value));
+	           	info.show();
+	           	long endTime = (System.currentTimeMillis() - start)/1000;
+	           	time.setText("Time: "+endTime);
+	    	}else if(o.equals("Gate")) {
+	    		long start = System.currentTimeMillis();
+	    		search.setPromptText("Gate");
+	    		String value = search.getText();
+	    		Alert info = new Alert(AlertType.INFORMATION);
+	           	info.setTitle("Simulation");
+	           	info.setHeaderText(null);
+	           	info.initStyle(StageStyle.UTILITY);
+	           	info.setContentText(s.searchFlightByGate(value));
+	           	info.show();
+	           	long endTime = (System.currentTimeMillis() - start)/1000;
+	           	time.setText("Time: "+endTime);
+	    	}
+    	}catch(NumberFormatException e) {
+    		Alert info = new Alert(AlertType.ERROR);
+        	info.setTitle("Simulation");
+        	info.setHeaderText(null);
+        	info.initStyle(StageStyle.UTILITY);
+        	info.setContentText("Please introduce a value valid");
+        	info.show();
+    	} 
+    	
+    }
 
     @FXML
     public void airlineUp(ActionEvent event) {
@@ -136,7 +230,8 @@ public class FlightController {
         clock.setText(objSDF.format(objDate));
      }
     
-    private TableView<Flight> createTable(){
+    @SuppressWarnings("unchecked")
+	private TableView<Flight> createTable(){
     	table = new TableView<Flight>();
     	data = createData();
     	table.setEditable(true);
@@ -169,7 +264,7 @@ public class FlightController {
     	
     	data = FXCollections.observableArrayList();
     	
-    	data.addAll(s.getFlightsToArraylis());
+    	data.addAll(s.getFlightsToArray());
     	return data;
     }
    
@@ -183,6 +278,7 @@ public class FlightController {
 
 	public void initialize() {
 		clokGenerate();
+		optionsSearch.getItems().addAll("Date","Schedule","Airline","Flight","City","Gate");
 		borderPane.setStyle("-fx-background-color: #10026d;");
 	}
     

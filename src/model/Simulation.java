@@ -3,51 +3,31 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
 
 public class Simulation {
+	// -----------------------------------------------------------------
+    // Constants
+    // -----------------------------------------------------------------
 	public final static String PATH_AIRLINES="data/airlines.txt";
 	public final static String PATH_CITIES="data/cities.txt";
+	// -----------------------------------------------------------------
+    // Attributes
+    // -----------------------------------------------------------------
 	private int numberFlights;
 	private Flight firstFlight;
-	
 	private ListAirlines firstAirlines;
 	private ListCities firstCities;
-	
-	private Flight[] flights;
 
-
+	// -----------------------------------------------------------------
+    // Builder
+    // -----------------------------------------------------------------
 	public Simulation(int number) {
-
-		//flights = new Flight[numberFlights];
 		numberFlights = number;
-		//generateSimulation();
-		System.out.println(sizeOfListFlights()+" flight");
-		System.out.println(sizeOfListCities()+" cities");
-		System.out.println(sizeOfListAirlines()+" airlines");
-		System.out.println(getFlightsToArray().size()+" tamaño de lista");
-		System.out.println(numberFlights+" number");
-		System.out.println(getFlightsToArraylis().length+" tamaño del arreglo");
 	}
-	/*public Screen(int numberOfFlights) throws IOException {
-		int counter = 0;
-		this.first = generateRandomFlight();
-		Flight temp = first;
-		while(counter < numberOfFlights) {
-			temp.setNext(generateRandomFlight());
-			temp.getNext().setPrevious(temp);
-			temp = temp.getNext();
-			counter++;
-		}
-	}*/
-
+	
+	// -----------------------------------------------------------------
+    // Methods for add linked list
+    // -----------------------------------------------------------------
 	public void addFlight(DateFlight date, Time schedule, String nameAirline,String idAirline, String destinationCity) {
 		int cont=0;
 		Flight newFlight = new Flight(date,schedule, nameAirline, idAirline, destinationCity);
@@ -78,29 +58,6 @@ public class Simulation {
 			current.getNext().setPrev(current);
 		}
 	}
-	public String searchFLight(int n) {
-		
-		ListAirlines match = null;
-		ListAirlines current = firstAirlines;
-		while(current!=null && match==null) {
-			if(current.getId()==n) {
-				match = current;
-			}
-			current = current.getNext();
-		}
-		return match.getName();
-	}
-	public String searchAirline(int n) {
-		ListAirlines match = firstAirlines;
-		ListAirlines current = firstAirlines;
-		while(current!=null ) {
-			if(current.getId()==n) {
-				match = current;
-			}
-			current = current.getNext();
-		}
-		return match.getName();
-	}
 	public void addListCities(String name, int id) {
 		ListCities b = new ListCities(name,id);
 		if(firstCities == null){
@@ -114,7 +71,23 @@ public class Simulation {
 			current.getNext().setPrev(current);
 		}
 	}
-	public String searchCities(int n) {
+	// -----------------------------------------------------------------
+    // Methods for search in linked list
+    // -----------------------------------------------------------------
+	
+	public String searchListAirline(int n) {
+		ListAirlines match = firstAirlines;
+		ListAirlines current = firstAirlines;
+		while(current!=null ) {
+			if(current.getId()==n) {
+				match = current;
+			}
+			current = current.getNext();
+		}
+		return match.getName();
+	}
+	
+	public String searchListCities(int n) {
 		ListCities match = firstCities;
 		ListCities current = firstCities;
 		while(current!=null) {
@@ -125,6 +98,77 @@ public class Simulation {
 		}
 		return match.getName();
 	}
+	public String searchFlightByAirline(String n) {
+		Flight match = null;
+		Flight current = firstFlight;
+		while(current!=null && match==null) {
+			if(current.getNameAirline().equalsIgnoreCase(n)) {
+				match = current;
+			}
+			current = current.getNext();
+		}
+		return match.toString();
+	}
+	public String searchFlightByCode(String n) {
+		Flight match = null;
+		Flight current = firstFlight;
+		while(current!=null && match==null) {
+			if(current.getIdAirline().equalsIgnoreCase(n)) {
+				match = current;
+			}
+			current = current.getNext();
+		}
+		return match.toString();
+	}
+	public String searchFlightByGate(String n) {
+		int gate= Integer.parseInt(n);
+		Flight match = null;
+		Flight current = firstFlight;
+		while(current!=null && match==null) {
+			int currentGate=  Integer.parseInt(current.getBoardingGate());
+			if(currentGate==gate) {
+				match = current;
+			}
+			current = current.getNext();
+		}
+		return match.toString();
+	}
+	public String searchFlightByDestination(String n) {
+		Flight match = null;
+		Flight current = firstFlight;
+		while(current!=null && match==null) {
+			if(current.getDestinationCity().equalsIgnoreCase(n)) {
+				match = current;
+			}
+			current = current.getNext();
+		}
+		return match.toString();
+	}
+	public String searchFlightByDate(String n) {
+		Flight match = null;
+		Flight current = firstFlight;
+		while(current!=null && match==null) {
+			if(current.getDate().toString().equalsIgnoreCase(n)) {
+				match = current;
+			}
+			current = current.getNext();
+		}
+		return match.toString();
+	}
+	public String searchFlightByTime(String n) {
+		Flight match = null;
+		Flight current = firstFlight;
+		while(current!=null && match==null) {
+			if(current.getSchedule().toString().equalsIgnoreCase(n)) {
+				match = current;
+			}
+			current = current.getNext();
+		}
+		return match.toString();
+	}
+	// -----------------------------------------------------------------
+    // Methods for count the size of linked list
+    // -----------------------------------------------------------------
 	public int sizeOfListCities(){
 		int size=0;
 		ListCities current = firstCities;
@@ -155,7 +199,11 @@ public class Simulation {
 		return size;
 		
 	}
-	public Flight[] getFlightsToArraylis() {
+	// -----------------------------------------------------------------
+    // Methods for return linked list
+    // -----------------------------------------------------------------
+	
+	public Flight[] getFlightsToArray() {
 		Flight[] flights;
 		flights = new Flight[numberFlights];
 		int c = 0;
@@ -167,19 +215,12 @@ public class Simulation {
 		 	}
 		return flights;
 	}
-	public List<Flight> getFlightsToArray() {
-		List<Flight> flights;
-		flights = new LinkedList<Flight>();
-		Flight current = firstFlight;
-		 	while(current!=null) {
-		 		flights.add(current);
-		 		current = current.getNext();
-		 	}
-		return flights;
-	}
+	
+	// -----------------------------------------------------------------
+    // Methods of model solution
+    // -----------------------------------------------------------------
 	
 	public void generateSimulation(){
-		Random random = new Random();
 		SecureRandom r = new SecureRandom();
 		load(PATH_AIRLINES);
 		load(PATH_CITIES);
@@ -188,8 +229,8 @@ public class Simulation {
 		String id="";
 		for (int i = 0; i <getNumberFlights() ; i++) {
 			
-			nameAirline = searchAirline(r.nextInt(32));
-			destinationCity = searchCities(r.nextInt(67));
+			nameAirline = searchListAirline(r.nextInt(32));
+			destinationCity = searchListCities(r.nextInt(67));
 			String in= nameAirline.substring(0, 2);
 			id= in+(r.nextInt(100000));
 			addFlight(new DateFlight(), new Time(), nameAirline, id, destinationCity);
@@ -198,13 +239,7 @@ public class Simulation {
 		sortByDate2();
 	}
 	
-	public String report() {
-		String msg="";
-		for (int i = 0; i < flights.length; i++) {
-			msg+=flights[i].toString();
-		}
-		return msg;
-	}
+
 	public void load(String path) {
 		try{
 			BufferedReader lector = new BufferedReader(new FileReader(path));
@@ -226,6 +261,19 @@ public class Simulation {
 			//String r= "Error reading the file";
 		}
 	}
+
+	public String flightInString() {
+		String list = "";
+		Flight current = firstFlight;
+		while(current != null) {
+			list += current.toString();
+			current = current.getNext();
+		}
+		return list;
+	}
+	// -----------------------------------------------------------------
+    // Methods for sort linked list
+    // -----------------------------------------------------------------
 	
 	public void bubbleSort() {
 		if(firstFlight != null) {
@@ -422,62 +470,9 @@ public class Simulation {
 		}
 	}
 	
-	/*
-	public void sortByBoardingGate(){
-		for (int i = 0; i < flights.length-1; i++) {
-			int minGate= Integer.parseInt(flights[i].getBoardingGate());
-			int minPosition = i;
-			for (int j = i; j < flights.length; j++) {
-				int currentGate = Integer.parseInt(flights[j].getBoardingGate());
-				if(currentGate<minGate) {
-					minGate= currentGate;
-					minPosition=j;
-				}
-			}
-			Flight temp= flights[minPosition];
-			flights[minPosition]=flights[i];
-			flights[i]=temp;
-		}
-		
-	}
-	public void sortByNameAirline(){
-		int i,j;
-		String auxS;	
-
-		for (i = 1; i < flights.length; i++){
-			auxS = flights[i].getNameAirline();
-			j = i - 1;
-			while ( (j >= 0) && flights[j].getNameAirline().compareTo(auxS)>0) {	
-				flights[j+1].setNameAirline(flights[j--].getNameAirline());
-				flights[j+1].setNameAirline(auxS);
-			}
-		}	
-	}
-
-	public void sortByDestinationCity(){
-		for(int i = 0; i < flights.length - 1; i++){
-            for(int j = 0; j < flights.length - 1; j++){
-            	String minCity = flights[j].getDestinationCity();
-            	String currentCity =flights[j+1].getDestinationCity();
-            	if((currentCity.compareTo(minCity))<0) {
-                    flights[j+1].setDestinationCity(minCity);
-                    flights[j].setDestinationCity(currentCity);
-        		}
-            }
-		}
-	}
-
-	
-	
-	*/
-	public void sortByDateFlight(){
-		Arrays.sort(getFlightsToArraylis());
-	}
-	
-	public void sortByTime(){
-		Comparator<Flight> timeComparator = new TimeComparator();
-		Arrays.sort(getFlightsToArraylis(), timeComparator);
-	}
+	// -----------------------------------------------------------------
+    // Methods Atributes
+    // -----------------------------------------------------------------
 	public int getNumberFlights() {
 		return numberFlights;
 	}
@@ -486,13 +481,6 @@ public class Simulation {
 		this.numberFlights = numberFlights;
 	}
 
-	public Flight[] getFlights() {
-		return flights;
-	}
-
-	public void setFlights(Flight[] flights) {
-		this.flights = flights;
-	}
 	public Flight getFirstFlight() {
 		return firstFlight;
 	}
@@ -505,7 +493,4 @@ public class Simulation {
 	public void setFirstAirlines(ListAirlines firstAirlines) {
 		this.firstAirlines = firstAirlines;
 	}
-
-	
-	
 }
