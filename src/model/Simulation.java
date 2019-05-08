@@ -236,7 +236,7 @@ public class Simulation {
 			addFlight(new DateFlight(), new Time(), nameAirline, id, destinationCity);
 			
 		}
-		sortByDate2();
+		sortByDate();
 	}
 	
 
@@ -275,7 +275,7 @@ public class Simulation {
     // Methods for sort linked list
     // -----------------------------------------------------------------
 	
-	public void bubbleSort() {
+	public void sortByAirline() {
 		if(firstFlight != null) {
 			Flight temp = firstFlight;
 			int counter = 0;
@@ -360,7 +360,7 @@ public class Simulation {
 		}
 		
 	}
-	public void sortByDate2() {
+	public void sortByDate() {
 		// TODO Use of insertion sort
 		if(firstFlight.getNext() != null) {
 			Flight current = firstFlight.getNext();
@@ -386,14 +386,15 @@ public class Simulation {
 		}
 		
 	}
-	public void sortByTime2() {
+	public void sortByTime() {
 		// TODO Use of insertion sort
 		if(firstFlight.getNext() != null) {
+			TimeComparator time= new TimeComparator();
 			Flight current = firstFlight.getNext();
 			while(current != null) {
 				Flight temp = current;
 				while(temp.getPrev() != null) {
-					if(temp.getSchedule().compareTo(temp.getPrev().getSchedule()) < 0) {
+					if(time.compare(temp, temp.getPrev())<0) {
 						if(temp.getPrev() == firstFlight) firstFlight = temp;
 						Flight next = temp.getNext();
 						Flight prev = temp.getPrev().getPrev();

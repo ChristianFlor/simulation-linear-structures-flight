@@ -163,7 +163,7 @@ public class FlightController {
     @FXML
     public void airlineUp(ActionEvent event) {
     	long start = System.currentTimeMillis();
-    	s.bubbleSort();
+    	s.sortByAirline();
     	long endTime = (System.currentTimeMillis() - start)/1000;
        	time.setText("Time: "+endTime);
     	table =createTable();
@@ -184,7 +184,7 @@ public class FlightController {
     @FXML
     public void dateUp(ActionEvent event) {
     	long start = System.currentTimeMillis();
-    	s.sortByDate2();
+    	s.sortByDate();
     	long endTime = (System.currentTimeMillis() - start)/1000;
        	time.setText("Time: "+endTime);
     	table =createTable();
@@ -216,7 +216,7 @@ public class FlightController {
     @FXML
     public void timeUp(ActionEvent event) {
     	long start = System.currentTimeMillis();
-    	s.sortByTime2();
+    	s.sortByTime();
     	long endTime = (System.currentTimeMillis() - start)/1000;
        	time.setText("Time: "+endTime);
     	table =createTable();
